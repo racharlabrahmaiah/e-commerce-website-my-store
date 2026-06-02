@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Login - E-Commerce Store</title>
+    <!-- Font Awesome for Social Media Icons, Chevron, & Form Fields -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Reset & Global Configuration --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .container {
+            width: 100%;
+            padding-left: 8%;
+            padding-right: 8%;
+        }
+
+        /* --- Header / Navigation Bar --- */
+        .main-header {
+            background-color: #0b1421;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .brand-logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .main-nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding-bottom: 6px;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .main-nav ul li a.active-link {
+            color: #ff6600;
+        }
+        
+        .main-nav ul li a.active-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff6600;
+        }
+
+        .main-nav ul li a:hover:not(.active-link) {
+            color: #ff6600;
+        }
+
+        /* --- Breadcrumb Sub-Header Banner --- */
+        .page-title-bar {
+            background-color: #ebf1f6;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .page-title-bar h1 {
+            font-size: 28px;
+            color: #0b1421;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .breadcrumb a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        /* --- Login Box Content Layout --- */
+        .login-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 60px;
+            padding-bottom: 80px;
+            background-color: #ffffff;
+        }
+
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            padding: 40px 35px;
+            border: 1px solid #ebedf0;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03);
+        }
+
+        .login-card h2 {
+            font-size: 24px;
+            color: #0b1421;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .login-card .subtitle {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Input Form Elements Grouping */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0b1421;
+            margin-bottom: 8px;
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon-wrapper i.field-icon {
+            position: absolute;
+            left: 15px;
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .input-icon-wrapper input {
+            width: 100%;
+            height: 46px;
+            padding: 0 15px 0 45px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #333333;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-icon-wrapper input:focus {
+            border-color: #ff6600;
+        }
+
+        /* Toggle password eye controller rules */
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 16px;
+            background: none;
+            border: none;
+            outline: none;
+        }
+
+        .toggle-password:hover {
+            color: #333333;
+        }
+
+        /* Help Options Row layout */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #333333;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: #ff6600;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        .forgot-pass-link {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-pass-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-submit-btn {
+            background-color: #ff6600;
+            color: #ffffff;
+            width: 100%;
+            height: 48px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .login-submit-btn:hover {
+            background-color: #e05b00;
+        }
+
+        .register-redirect {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .register-redirect a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-redirect a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Footer Framework --- */
+        .site-footer {
+            background-color: #0b1421;
+            color: #a3b2c6;
+            padding-top: 60px;
+            padding-bottom: 20px;
+        }
+
+        .footer-columns-wrapper {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .footer-column h4 {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a {
+            color: #a3b2c6;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-column ul li a i {
+            font-size: 10px;
+            margin-right: 8px;
+        }
+
+        .social-media-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-media-bar a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            transition: filter 0.2s ease;
+        }
+
+        .social-media-bar a:hover {
+            filter: brightness(1.2);
+        }
+
+        .brand-facebook  { background-color: #3b5998; }
+        .brand-twitter   { background-color: #1da1f2; }
+        .brand-instagram { background-color: #e1306c; }
+        .brand-youtube   { background-color: #ff0000; }
+
+        .newsletter-label {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .newsletter-form-container {
+            display: flex;
+            height: 42px;
+        }
+
+        .newsletter-form-container input[type="email"] {
+            flex: 1;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            padding-left: 15px;
+            font-size: 14px;
+            outline: none;
+            color: #333333;
+        }
+
+        .newsletter-form-container button {
+            background-color: #ff6600;
+            color: #ffffff;
+            font-weight: 700;
+            border: none;
+            padding: 0 22px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .newsletter-form-container button:hover {
+            background-color: #e05b00;
+        }
+
+        .footer-copyright-bar {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 25px;
+            font-size: 13px;
+            color: #a3b2c6;
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 767px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                gap: 15px;
+            }
+            .main-nav ul {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header class="main-header container">
+        <a href="index.html" class="brand-logo">E-Commerce Store</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="login.html" class="active-link">Login</a></li>
+                <li><a href="#">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sub-Header Title Banner -->
+    <section class="page-title-bar container">
+        <h1>Member Login</h1>
+        <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Login</div>
+    </section>
+
+    <!-- Main Content Card wrapper -->
+    <main class="login-wrapper container">
+        <div class="login-card">
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Please log into your store account</p>
+            
+            <!-- Login Form -->
+            <form id="login-form">
+                
+                <!-- Email Entry Field -->
+                <div class="form-group">
+                    <label for="user-email">Email Address</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-regular fa-envelope field-icon"></i>
+                        <input type="email" id="user-email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <!-- Password Entry Field -->
+                <div class="form-group">
+                    <label for="user-password">Password</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-solid fa-lock field-icon"></i>
+                        <input type="password" id="user-password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" id="eye-toggle" onclick="togglePasswordVisibility()">
+                            <i class="fa-regular fa-eye" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Options and Help Links row -->
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-pass-link" onclick="alert('Password recovery link sent to your email!');">Forgot Password?</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="login-submit-btn">Sign In</button>
+
+                <!-- Registration Forwarder Subtext -->
+                <p class="register-redirect">Don't have an account? <a href="#">Register here</a></p>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Bar Links and Newsletter Subscriptions -->
+    <footer class="site-footer container">
+        <div class="footer-columns-wrapper">
+            
+            <div class="footer-column">
+                <h4>E-Commerce Store</h4>
+                <p>Your one-stop online shopping destination.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+                    <li><a href="products.html"><i class="fa-solid fa-chevron-right"></i> Products</a></li>
+                    <li><a href="cart.html"><i class="fa-solid fa-chevron-right"></i> Cart</a></li>
+                    <li><a href="login.html"><i class="fa-solid fa-chevron-right"></i> Login</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Register</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms & Conditions</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+                <div class="social-media-bar">
+                    <a href="#" class="brand-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="brand-twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="brand-instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="brand-youtube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <label class="newsletter-label">Subscribe to our newsletter</label>
+                <form class="newsletter-form-container" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-copyright-bar">
+            &copy; 2026 E-Commerce Store. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript For Password Toggle and Direct Redirect Logic -->
+    <script>
+        // Password Visibility Toggle
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('user-password');
+            const eyeIcon = document.getElementById('eye-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Direct Redirect Logic (ఎలాంటి కండిషన్స్ లేకుండా హోమ్ పేజీకి వెళ్తుంది)
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // పేజీ రీలోడ్ అవ్వకుండా ఆపుతుంది
+            
+            // అలర్ట్ మెసేజ్ చూపిస్తుంది
+            alert('Login Successful! Redirecting to Home Page...');
+            
+            // నేరుగా మెయిన్ పేజీ (index.html) కి రీడైరెక్ట్ అవుతుంది
+            window.location.href = 'index.html'; 
+        });
+    </script>
+</body>
+</html>

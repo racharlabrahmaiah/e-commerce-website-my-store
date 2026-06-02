@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - E-Commerce Store</title>
+    <!-- Font Awesome for Social Media Icons, Chevron, & Form Fields -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Reset & Global Configuration --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .container {
+            width: 100%;
+            padding-left: 8%;
+            padding-right: 8%;
+        }
+
+        /* --- Header / Navigation Bar --- */
+        .main-header {
+            background-color: #0b1421;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .brand-logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .main-nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding-bottom: 6px;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .main-nav ul li a.active-link {
+            color: #ff6600;
+        }
+        
+        .main-nav ul li a.active-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff6600;
+        }
+
+        .main-nav ul li a:hover:not(.active-link) {
+            color: #ff6600;
+        }
+
+        /* --- Breadcrumb Sub-Header Banner --- */
+        .page-title-bar {
+            background-color: #ebf1f6;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .page-title-bar h1 {
+            font-size: 28px;
+            color: #0b1421;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .breadcrumb a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        /* --- Register Box Content Layout --- */
+        .register-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 50px;
+            padding-bottom: 70px;
+            background-color: #ffffff;
+        }
+
+        .register-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 460px;
+            border-radius: 12px;
+            padding: 40px 35px;
+            border: 1px solid #ebedf0;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03);
+        }
+
+        .register-card h2 {
+            font-size: 24px;
+            color: #0b1421;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .register-card .subtitle {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Input Form Elements Grouping */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0b1421;
+            margin-bottom: 8px;
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon-wrapper i.field-icon {
+            position: absolute;
+            left: 15px;
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .input-icon-wrapper input {
+            width: 100%;
+            height: 46px;
+            padding: 0 15px 0 45px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #333333;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-icon-wrapper input:focus {
+            border-color: #ff6600;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 16px;
+            background: none;
+            border: none;
+            outline: none;
+        }
+
+        .toggle-password:hover {
+            color: #333333;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: #ef4444;
+            font-size: 13px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Terms and conditions checkbox row layout */
+        .terms-condition {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #333333;
+            cursor: pointer;
+        }
+
+        .terms-condition input {
+            margin-right: 8px;
+            accent-color: #ff6600;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        .terms-condition a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        .terms-condition a:hover {
+            text-decoration: underline;
+        }
+
+        .register-submit-btn {
+            background-color: #ff6600;
+            color: #ffffff;
+            width: 100%;
+            height: 48px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .register-submit-btn:hover {
+            background-color: #e05b00;
+        }
+
+        .login-redirect {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .login-redirect a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-redirect a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Footer Framework --- */
+        .site-footer {
+            background-color: #0b1421;
+            color: #a3b2c6;
+            padding-top: 60px;
+            padding-bottom: 20px;
+        }
+
+        .footer-columns-wrapper {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .footer-column h4 {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a {
+            color: #a3b2c6;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-column ul li a i {
+            font-size: 10px;
+            margin-right: 8px;
+        }
+
+        .social-media-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-media-bar a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            transition: filter 0.2s ease;
+        }
+
+        .social-media-bar a:hover {
+            filter: brightness(1.2);
+        }
+
+        .brand-facebook  { background-color: #3b5998; }
+        .brand-twitter   { background-color: #1da1f2; }
+        .brand-instagram { background-color: #e1306c; }
+        .brand-youtube   { background-color: #ff0000; }
+
+        .newsletter-label {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .newsletter-form-container {
+            display: flex;
+            height: 42px;
+        }
+
+        .newsletter-form-container input[type="email"] {
+            flex: 1;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            padding-left: 15px;
+            font-size: 14px;
+            outline: none;
+            color: #333333;
+        }
+
+        .newsletter-form-container button {
+            background-color: #ff6600;
+            color: #ffffff;
+            font-weight: 700;
+            border: none;
+            padding: 0 22px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .newsletter-form-container button:hover {
+            background-color: #e05b00;
+        }
+
+        .footer-copyright-bar {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 25px;
+            font-size: 13px;
+            color: #a3b2c6;
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 767px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                gap: 15px;
+            }
+            .main-nav ul {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header class="main-header container">
+        <a href="index.html" class="brand-logo">E-Commerce Store</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html" class="active-link">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sub-Header Title Banner -->
+    <section class="page-title-bar container">
+        <h1>Register Account</h1>
+        <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Register</div>
+    </section>
+
+    <!-- Main Content Card wrapper -->
+    <main class="register-wrapper container">
+        <div class="register-card">
+            <h2>Create An Account</h2>
+            <p class="subtitle">Join us today to get the best offers and tracking metrics</p>
+            
+            <!-- Error Message Box -->
+            <div class="error-message" id="error-box">Passwords do not match!</div>
+            
+            <!-- Registration Form -->
+            <form id="register-form">
+                
+                <!-- Full Name Field -->
+                <div class="form-group">
+                    <label for="user-name">Full Name</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-regular fa-user field-icon"></i>
+                        <input type="text" id="user-name" placeholder="John Doe" required>
+                    </div>
+                </div>
+
+                <!-- Email Entry Field -->
+                <div class="form-group">
+                    <label for="user-email">Email Address</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-regular fa-envelope field-icon"></i>
+                        <input type="email" id="user-email" placeholder="name@example.com" required>
+                    </div>
+                </div>
+
+                <!-- Password Entry Field -->
+                <div class="form-group">
+                    <label for="user-password">Password</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-solid fa-lock field-icon"></i>
+                        <input type="password" id="user-password" placeholder="Create password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('user-password', 'eye-icon-1')">
+                            <i class="fa-regular fa-eye" id="eye-icon-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Entry Field -->
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-solid fa-lock field-icon"></i>
+                        <input type="password" id="confirm-password" placeholder="Confirm password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirm-password', 'eye-icon-2')">
+                            <i class="fa-regular fa-eye" id="eye-icon-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Terms checkbox selection row -->
+                <label class="terms-condition">
+                    <input type="checkbox" required> I agree to the <a href="#">Terms & Conditions</a>
+                </label>
+
+                <!-- Submit Button -->
+                <button type="submit" class="register-submit-btn">Sign Up</button>
+
+                <!-- Login Forwarder Subtext -->
+                <p class="login-redirect">Already have an account? <a href="login.html">Login here</a></p>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Bar Links and Newsletter Subscriptions -->
+    <footer class="site-footer container">
+        <div class="footer-columns-wrapper">
+            
+            <div class="footer-column">
+                <h4>E-Commerce Store</h4>
+                <p>Your one-stop online shopping destination.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+                    <li><a href="products.html"><i class="fa-solid fa-chevron-right"></i> Products</a></li>
+                    <li><a href="cart.html"><i class="fa-solid fa-chevron-right"></i> Cart</a></li>
+                    <li><a href="login.html"><i class="fa-solid fa-chevron-right"></i> Login</a></li>
+                    <li><a href="register.html"><i class="fa-solid fa-chevron-right"></i> Register</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms & Conditions</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+                <div class="social-media-bar">
+                    <a href="#" class="brand-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="brand-twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="brand-instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="brand-youtube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <label class="newsletter-label">Subscribe to our newsletter</label>
+                <form class="newsletter-form-container" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-copyright-bar">
+            &copy; 2026 E-Commerce Store. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript For Password Validation and Direct Redirect Logic -->
+    <script>
+        // Password Visibility Toggle Logic
+        function togglePassword(inputId, eyeId) {
+            const passwordInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(eyeId);
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Registration form submission validation & redirection
+        document.getElementById('register-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop default form refreshing page refresh layout
+
+            const password = document.getElementById('user-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorBox = document.getElementById('error-box');
+
+            // Check if passwords match perfectly
+            if (password !== confirmPassword) {
+                errorBox.style.display = "block"; // Show match mismatch warning error box
+                return;
+            }
+
+            errorBox.style.display = "none";
+            alert('Registration Successful! Redirecting to the Login Page...');
+            
+            // Redirects to your login page smoothly
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

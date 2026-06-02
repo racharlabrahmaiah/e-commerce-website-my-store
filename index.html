@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Reset & Global Configuration --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* --- Global Structural Utility --- */
+        .container {
+            width: 100%;
+            padding-left: 8%;
+            padding-right: 8%;
+        }
+
+        /* --- Header / Navigation Bar --- */
+        .main-header {
+            background-color: #0b1421;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .brand-logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .main-nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding-bottom: 6px;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .main-nav ul li a.active-link {
+            color: #ff6600;
+        }
+        
+        .main-nav ul li a.active-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff6600;
+        }
+
+        .main-nav ul li a:hover:not(.active-link) {
+            color: #ff6600;
+        }
+
+        /* --- Hero Showcase Section --- */
+        .hero-banner {
+            background-color: #ebf1f6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 60px;
+            padding-bottom: 60px;
+            min-height: 440px;
+        }
+
+        .hero-text-block {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .hero-text-block h1 {
+            font-size: 52px;
+            color: #0b1421;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .hero-text-block h1 span {
+            color: #ff6600;
+        }
+
+        .hero-text-block p {
+            font-size: 18px;
+            color: #333333;
+            margin-bottom: 30px;
+        }
+
+        .cta-shop-btn {
+            background-color: #ff6600;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .cta-shop-btn:hover {
+            background-color: #e05b00;
+        }
+
+        .hero-graphic-block {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .hero-graphic-block img {
+            max-width: 100%;
+            height: auto;
+            max-height: 340px;
+        }
+
+        /* --- Featured Products Grid Section --- */
+        .featured-showcase {
+            padding-top: 50px;
+            padding-bottom: 70px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .featured-showcase h2 {
+            font-size: 24px;
+            color: #000000;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .featured-showcase h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 35%;
+            width: 30%;
+            height: 3px;
+            background-color: #ff6600;
+        }
+
+        .grid-layout {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .product-card {
+            background: #ffffff;
+            width: 320px;
+            border-radius: 12px;
+            padding: 35px 25px;
+            border: 1px solid #ebedf0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .image-viewport {
+            height: 160px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .image-viewport img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-card h3 {
+            font-size: 20px;
+            color: #000000;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .product-card .item-price {
+            color: #ff6600;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .details-action-btn {
+            background-color: #0b1421;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px 0;
+            width: 130px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .details-action-btn:hover {
+            background-color: #16253b;
+        }
+
+        /* --- Dynamic Modal (Pop-up Window) Styles --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 9999;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            color: #555;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .modal-close-btn:hover {
+            color: #000;
+        }
+
+        #modal-img-container {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #modal-img-container img {
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        #modal-title {
+            font-size: 24px;
+            color: #0b1421;
+            margin-bottom: 10px;
+        }
+
+        #modal-price {
+            font-size: 22px;
+            color: #ff6600;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        #modal-desc {
+            font-size: 15px;
+            color: #555555;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .modal-buy-btn {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-buy-btn:hover {
+            background-color: #e05b00;
+        }
+
+        /* --- Footer Framework --- */
+        .site-footer {
+            background-color: #0b1421;
+            color: #a3b2c6;
+            padding-top: 60px;
+            padding-bottom: 20px;
+        }
+
+        .footer-columns-wrapper {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .footer-column h4 {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a {
+            color: #a3b2c6;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-column ul li a i {
+            font-size: 10px;
+            margin-right: 8px;
+        }
+
+        .social-media-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-media-bar a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            transition: filter 0.2s ease;
+        }
+
+        .social-media-bar a:hover {
+            filter: brightness(1.2);
+        }
+
+        .brand-facebook  { background-color: #3b5998; }
+        .brand-twitter   { background-color: #1da1f2; }
+        .brand-instagram { background-color: #e1306c; }
+        .brand-youtube   { background-color: #ff0000; }
+
+        .newsletter-label {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .newsletter-form-container {
+            display: flex;
+            height: 42px;
+        }
+
+        .newsletter-form-container input[type="email"] {
+            flex: 1;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            padding-left: 15px;
+            font-size: 14px;
+            outline: none;
+            color: #333333;
+        }
+
+        .newsletter-form-container button {
+            background-color: #ff6600;
+            color: #ffffff;
+            font-weight: 700;
+            border: none;
+            padding: 0 22px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .newsletter-form-container button:hover {
+            background-color: #e05b00;
+        }
+
+        .footer-copyright-bar {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 25px;
+            font-size: 13px;
+            color: #a3b2c6;
+        }
+
+        /* --- Media Breakpoints --- */
+        @media (max-width: 991px) {
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+            .hero-text-block {
+                max-width: 100%;
+            }
+            .hero-graphic-block {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                gap: 15px;
+            }
+            .main-nav ul {
+                gap: 20px;
+            }
+            .hero-text-block h1 {
+                font-size: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header container">
+        <a href="#" class="brand-logo">E-Commerce Store</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" class="active-link">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-banner container">
+        <div class="hero-text-block">
+            <h1>Welcome to<br><span>E-Commerce</span> Store</h1>
+            <p>Shop the latest products at the best prices.</p>
+            <button class="cta-shop-btn" id="hero-shop-btn">Shop Now</button>
+        </div>
+        <div class="hero-graphic-block">
+            <img src="https://i.ibb.co/6w2MByb/shopping-cart.png" alt="Shopping Cart Illustration" onerror="this.src='https://images.pexels.com/photos/5632371/pexels-photo-5632371.jpeg?auto=compress&cs=tinysrgb&w=600'">
+        </div>
+    </section>
+
+    <section class="featured-showcase container">
+        <h2>Featured Products</h2>
+        <div class="grid-layout">
+            
+            <div class="product-card">
+                <div class="image-viewport">
+                    <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg" id="img-laptop" alt="Laptop">
+                </div>
+                <h3>Laptop</h3>
+                <div class="item-price">₹50,000</div>
+                <button class="details-action-btn" onclick="openProductModal('Laptop', '₹50,000', 'https://images.pexels.com/photos/18105/pexels-photo.jpg', 'High-performance laptop equipped with a stunning crisp display, ultrafast processing power, and long-lasting battery backup perfect for professionals and power users.')">View Details</button>
+            </div>
+
+            <div class="product-card">
+                <div class="image-viewport">
+                    <img src="https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg" id="img-mobile" alt="Mobile Phone">
+                </div>
+                <h3>Mobile</h3>
+                <div class="item-price">₹20,000</div>
+                <button class="details-action-btn" onclick="openProductModal('Mobile', '₹20,000', 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg', 'Next-generation smartphone featuring an advanced multi-camera system, beautiful dynamic screen layout, and lightning-fast 5G connectivity options.')">View Details</button>
+            </div>
+
+            <div class="product-card">
+                <div class="image-viewport">
+                    <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg" id="img-headphone" alt="Headphone">
+                </div>
+                <h3>Headphone</h3>
+                <div class="item-price">₹3,000</div>
+                <button class="details-action-btn" onclick="openProductModal('Headphone', '₹3,000', 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg', 'Premium wireless over-ear headphones delivering immersive active noise cancellation audio, high-fidelity bass levels, and soft ergonomic cushion padding.')">View Details</button>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-box">
+            <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+            <div id="modal-img-container"></div>
+            <h3 id="modal-title">Product Title</h3>
+            <div id="modal-price">Price</div>
+            <p id="modal-desc">Product Description Text goes here...</p>
+            <button class="modal-buy-btn" onclick="alert('Added item to your shopping cart!')">Add To Cart</button>
+        </div>
+    </div>
+
+    <footer class="site-footer container">
+        <div class="footer-columns-wrapper">
+            
+            <div class="footer-column">
+                <h4>E-Commerce Store</h4>
+                <p>Your one-stop online shopping destination.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Products</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Cart</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Login</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Register</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms & Conditions</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+                <div class="social-media-bar">
+                    <a href="#" class="brand-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="brand-twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="brand-instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="brand-youtube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <label class="newsletter-label">Subscribe to our newsletter</label>
+                <form class="newsletter-form-container" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-copyright-bar">
+            &copy; 2026 E-Commerce Store. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('productModal');
+
+        // Function to open the pop-up modal window with data dynamically
+        function openProductModal(title, price, imgSrc, description) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-price').innerText = price;
+            document.getElementById('modal-desc').innerText = description;
+            document.getElementById('modal-img-container').innerHTML = `<img src="${imgSrc}" alt="${title}">`;
+            
+            modal.classList.add('active');
+        }
+
+        // Function to safely close the pop-up window
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Close Pop-up if user clicks outside the inner white box container area
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Connect "Shop Now" main button click to automatically scroll down to showcase panel
+        document.getElementById('hero-shop-btn').addEventListener('click', function() {
+            document.querySelector('.featured-showcase').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+    </script>
+
+</body>
+</html>

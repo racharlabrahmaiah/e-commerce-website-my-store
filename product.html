@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Catalog - E-Commerce Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Reset & Global Configuration --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .container {
+            width: 100%;
+            padding-left: 8%;
+            padding-right: 8%;
+        }
+
+        /* --- Header / Navigation Bar --- */
+        .main-header {
+            background-color: #0b1421;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .brand-logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .main-nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding-bottom: 6px;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .main-nav ul li a.active-link {
+            color: #ff6600;
+        }
+        
+        .main-nav ul li a.active-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff6600;
+        }
+
+        .main-nav ul li a:hover:not(.active-link) {
+            color: #ff6600;
+        }
+
+        /* --- Breadcrumb Sub-Header Banner --- */
+        .page-title-bar {
+            background-color: #ebf1f6;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .page-title-bar h1 {
+            font-size: 28px;
+            color: #0b1421;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .breadcrumb a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        /* --- Main Catalog Grid Split Framework --- */
+        .catalog-layout {
+            display: flex;
+            gap: 40px;
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+
+        .filter-sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: #ffffff;
+            border: 1px solid #ebedf0;
+            border-radius: 12px;
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .filter-section h4 {
+            font-size: 16px;
+            color: #0b1421;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ebedf0;
+            padding-bottom: 8px;
+        }
+
+        .filter-options {
+            list-style: none;
+        }
+
+        .filter-options li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .filter-options li input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: #ff6600;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .products-column {
+            flex-grow: 1;
+        }
+
+        .catalog-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #ebedf0;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .sort-wrapper select {
+            padding: 6px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #0b1421;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Main Display Core Grid */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px 20px;
+            border: 1px solid #ebedf0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .image-viewport {
+            height: 150px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .image-viewport img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            color: #000000;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .rating-stars {
+            color: #ffb100;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .product-card .item-price {
+            color: #ff6600;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .details-action-btn {
+            background-color: #0b1421;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px 0;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .details-action-btn:hover {
+            background-color: #16253b;
+        }
+
+        /* --- Dynamic View Modals Pop-ups --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 9999;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            color: #555;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        #modal-img-container {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #modal-img-container img {
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        #modal-title {
+            font-size: 24px;
+            color: #0b1421;
+            margin-bottom: 10px;
+        }
+
+        #modal-price {
+            font-size: 22px;
+            color: #ff6600;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        #modal-desc {
+            font-size: 15px;
+            color: #555555;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .modal-buy-btn {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-buy-btn:hover {
+            background-color: #e05b00;
+        }
+
+        /* --- Footer Framework --- */
+        .site-footer {
+            background-color: #0b1421;
+            color: #a3b2c6;
+            padding-top: 60px;
+            padding-bottom: 20px;
+        }
+
+        .footer-columns-wrapper {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .footer-column h4 {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a {
+            color: #a3b2c6;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-column ul li a i {
+            font-size: 10px;
+            margin-right: 8px;
+        }
+
+        .social-media-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-media-bar a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            transition: filter 0.2s ease;
+        }
+
+        .social-media-bar a:hover {
+            filter: brightness(1.2);
+        }
+
+        .brand-facebook  { background-color: #3b5998; }
+        .brand-twitter   { background-color: #1da1f2; }
+        .brand-instagram { background-color: #e1306c; }
+        .brand-youtube   { background-color: #ff0000; }
+
+        .newsletter-label {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .newsletter-form-container {
+            display: flex;
+            height: 42px;
+        }
+
+        .newsletter-form-container input[type="email"] {
+            flex: 1;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            padding-left: 15px;
+            font-size: 14px;
+            outline: none;
+            color: #333333;
+        }
+
+        .newsletter-form-container button {
+            background-color: #ff6600;
+            color: #ffffff;
+            font-weight: 700;
+            border: none;
+            padding: 0 22px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .newsletter-form-container button:hover {
+            background-color: #e05b00;
+        }
+
+        .footer-copyright-bar {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 25px;
+            font-size: 13px;
+            color: #a3b2c6;
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 991px) {
+            .catalog-layout {
+                flex-direction: column;
+            }
+            .filter-sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                gap: 15px;
+            }
+            .main-nav ul {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header container">
+        <a href="index.html" class="brand-logo">E-Commerce Store</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active-link">Products</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="page-title-bar container">
+        <h1>All Products</h1>
+        <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Products</div>
+    </section>
+
+    <main class="catalog-layout container">
+        
+        <aside class="filter-sidebar">
+            <div class="filter-section">
+                <h4>Categories</h4>
+                <ul class="filter-options">
+                    <li><input type="checkbox" class="category-filter" value="laptops" checked> Laptops</li>
+                    <li><input type="checkbox" class="category-filter" value="mobiles" checked> Mobile Phones</li>
+                    <li><input type="checkbox" class="category-filter" value="audio" checked> Audio Gear</li>
+                    <li><input type="checkbox" class="category-filter" value="accessories" checked> Accessories</li>
+                </ul>
+            </div>
+            
+            <div class="filter-section">
+                <h4>Price Tier</h4>
+                <ul class="filter-options">
+                    <li><input type="checkbox" class="price-filter" value="below5" checked> Below ₹5,000</li>
+                    <li><input type="checkbox" class="price-filter" value="5to20" checked> ₹5,000 - ₹20,000</li>
+                    <li><input type="checkbox" class="price-filter" value="above20" checked> Above ₹20,000</li>
+                </ul>
+            </div>
+        </aside>
+
+        <section class="products-column">
+            
+            <div class="catalog-toolbar">
+                <div id="results-count">Showing 1–6 of 6 catalog results</div>
+                <div class="sort-wrapper">
+                    Sort by: &nbsp;
+                    <select id="sort-selector">
+                        <option value="default">Default Sorting</option>
+                        <option value="low-high">Price: Low to High</option>
+                        <option value="high-low">Price: High to Low</option>
+                        <option value="popularity">Popularity</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-layout" id="product-grid">
+                </div>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-box">
+            <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+            <div id="modal-img-container"></div>
+            <h3 id="modal-title">Product Title</h3>
+            <div id="modal-price">Price</div>
+            <p id="modal-desc">Product Description Text goes here...</p>
+            <button class="modal-buy-btn" onclick="alert('Added item to your shopping cart!')">Add To Cart</button>
+        </div>
+    </div>
+
+    <footer class="site-footer container">
+        <div class="footer-columns-wrapper">
+            
+            <div class="footer-column">
+                <h4>E-Commerce Store</h4>
+                <p>Your one-stop online shopping destination.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+                    <li><a href="products.html"><i class="fa-solid fa-chevron-right"></i> Products</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Cart</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Login</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Register</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms & Conditions</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+                <div class="social-media-bar">
+                    <a href="#" class="brand-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="brand-twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="brand-instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="brand-youtube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <label class="newsletter-label">Subscribe to our newsletter</label>
+                <form class="newsletter-form-container" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-copyright-bar">
+            &copy; 2026 E-Commerce Store. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // అన్ని ప్రొడక్ట్స్ యొక్క డేటా లిస్ట్ (ఇందులో Category మరియు Price Tier డేటా ఉంది)
+        const productsData = [
+            { id: 1, title: 'Laptop', price: 50000, category: 'laptops', tier: 'above20', popularity: 5, rating: 4.5, img: 'https://images.pexels.com/photos/18105/pexels-photo.jpg', desc: 'High-performance processing power laptop with crystal clear display layout.' },
+            { id: 2, title: 'Mobile', price: 20000, category: 'mobiles', tier: '5to20', popularity: 4, rating: 4.0, img: 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg', desc: 'Premium multi-camera setup mobile device with high refresh-rate display screen.' },
+            { id: 3, title: 'Headphone', price: 3000, category: 'audio', tier: 'below5', popularity: 6, rating: 5.0, img: 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg', desc: 'Studio quality wireless headphones with premium active noise cancellation audio.' },
+            { id: 4, title: 'Smart Watch', price: 8500, category: 'accessories', tier: '5to20', popularity: 3, rating: 4.5, img: 'https://images.pexels.com/photos/4370376/pexels-photo-4370376.jpeg?auto=compress&cs=tinysrgb&w=300', desc: 'Modern fitness tracking wearable smart watch with beautiful clear AMOLED display.' },
+            { id: 5, title: 'Gaming Mouse', price: 2500, category: 'accessories', tier: 'below5', popularity: 2, rating: 4.0, img: 'https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=300', desc: 'Tactile high-precision optical gaming mouse with custom RGB lighting profiles.' },
+            { id: 6, title: 'Tablet', price: 28000, category: 'mobiles', tier: 'above20', popularity: 1, rating: 5.0, img: 'https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=300', desc: 'Versatile smart tablet designed for digital illustration artwork and media streaming.' }
+        ];
+
+        // HTML elements ని సెలెక్ట్ చేయడం
+        const productGrid = document.getElementById('product-grid');
+        const resultsCount = document.getElementById('results-count');
+        const sortSelector = document.getElementById('sort-selector');
+        const categoryCheckboxes = document.querySelectorAll('.category-filter');
+        const priceCheckboxes = document.querySelectorAll('.price-filter');
+        const modal = document.getElementById('productModal');
+
+        // ప్రొడక్ట్ రేటింగ్ స్టార్స్ (Stars) డిజైన్ చేయడానికి ఫంక్షన్
+        function getStarsHTML(rating) {
+            let html = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(rating)) {
+                    html += '<i class="fa-solid fa-star"></i>';
+                } else if (i - 0.5 === rating) {
+                    html += '<i class="fa-solid fa-star-half-stroke"></i>';
+                } else {
+                    html += '<i class="fa-regular fa-star"></i>';
+                }
+            }
+            return html;
+        }
+
+        // ఫిల్టర్స్ మరియు సార్టింగ్ రన్ చేసే మెయిన్ ఇంజిన్
+        function applyFiltersAndSort() {
+            // టిక్ చేసిన కేటగిరీలు పొందడం
+            const checkedCategories = Array.from(categoryCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+
+            // టిక్ చేసిన ప్రైస్ టెయర్స్ పొందడం
+            const checkedPrices = Array.from(priceCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+
+            // 1. FILTERING: యూజర్ సెలెక్ట్ చేసిన కేటగిరీ & ప్రైస్ కి తగ్గట్టు డేటాను ఫిల్టర్ చేయడం
+            let filteredProducts = productsData.filter(product => {
+                const matchesCategory = checkedCategories.includes(product.category);
+                const matchesPrice = checkedPrices.includes(product.tier);
+                return matchesCategory && matchesPrice;
+            });
+
+            // 2. SORTING: ప్రైస్ లేదా పాపులారిటీ ఆధారంగా ఆర్డర్ మార్చడం
+            const sortValue = sortSelector.value;
+            if (sortValue === 'low-high') {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (sortValue === 'high-low') {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            } else if (sortValue === 'popularity') {
+                filteredProducts.sort((a, b) => b.popularity - a.popularity);
+            } else if (sortValue === 'default') {
+                filteredProducts.sort((a, b) => a.id - b.id);
+            }
+
+            // 3. UI RENDERING: ఫిల్టర్ చేసిన కార్డ్‌లను స్క్రీన్ మీద చూపించడం
+            productGrid.innerHTML = '';
+            
+            if (filteredProducts.length === 0) {
+                productGrid.innerHTML = '<p style="grid-column: 1/-1; color:#64748b; font-size:16px; padding:20px 0; text-align:center;">మీరు ఎంచుకున్న ఫిల్టర్స్‌కు సరిపోయే ప్రొడక్ట్స్ ఏవీ లేవు!</p>';
+                resultsCount.innerText = 'Showing 0 of 0 catalog results';
+                return;
+            }
+
+            filteredProducts.forEach(product => {
+                const cardHTML = `
+                    <div class="product-card">
+                        <div class="image-viewport">
+                            <img src="${product.img}" alt="${product.title}">
+                        </div>
+                        <h3>${product.title}</h3>
+                        <div class="rating-stars">
+                            ${getStarsHTML(product.rating)}
+                        </div>
+                        <div class="item-price">₹${product.price.toLocaleString('en-IN')}</div>
+                        <button class="details-action-btn" onclick="openProductModal('${product.title}', '₹${product.price.toLocaleString('en-IN')}', '${product.img}', '${product.desc}')">View Details</button>
+                    </div>
+                `;
+                productGrid.innerHTML += cardHTML;
+            });
+
+            // రిజల్ట్స్ కౌంట్ అప్‌డేట్ చేయడం
+            resultsCount.innerText = `Showing 1–${filteredProducts.length} of ${filteredProducts.length} catalog results`;
+        }
+
+        // ఈవెంట్ లిజనర్స్ యాడ్ చేయడం (క్లిక్ చేయగానే ఆటోమేటిక్‌గా అప్‌డేట్ అవుతుంది)
+        categoryCheckboxes.forEach(cb => cb.addEventListener('change', applyFiltersAndSort));
+        priceCheckboxes.forEach(cb => cb.addEventListener('change', applyFiltersAndSort));
+        sortSelector.addEventListener('change', applyFiltersAndSort);
+
+        // --- View Details పాప్-అప్ మోడల్ ఫంక్షన్స్ ---
+        function openProductModal(title, price, imgSrc, description) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-price').innerText = price;
+            document.getElementById('modal-desc').innerText = description;
+            document.getElementById('modal-img-container').innerHTML = `<img src="${imgSrc}" alt="${title}">`;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // పేజీ లోడ్ అవ్వగానే మొదట ప్రొడక్ట్స్ కనిపించడానికి రన్ చేయడం
+        applyFiltersAndSort();
+    </script>
+</body>
+</html>
